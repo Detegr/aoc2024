@@ -1,19 +1,18 @@
-with open('9.in') as f:inp=[int(c) for c in f.read()[:-1]]
-d,f,i=(inp[::2],inp[1::2]+[0],[x for x in range(0,1+int(len(inp)/2))]);o=[]
-def s(l,i,j):l.insert(i+1,l.pop(j));return l
-f2=[0 for x in f];m=[]
-
-c=xi=len(d)-1
+with open('9.in') as f:inp=[int(c) for c in f.read()[:-1]]                  # input
+d,f,i=(inp[::2],inp[1::2]+[0],[x for x in range(0,1+int(len(inp)/2))]);o=[] # disk, free space, indices
+def mv(l,i,j):l.insert(i+1,l.pop(j));return l                               # move element in a list from j to right side of i
+f2=[0 for x in f];m=[]                                                      # helper free space list to not clobber the main one, map
+c=bi=len(d)-1                                                               # loop counter, index from the end
 while c>0:
- y=0;x=d[xi]
- for fi,fx in enumerate(f):
-  if fx>=x and fi<xi:
-   f2[xi]+=d[xi]+f[xi]
-   i=s(i,fi,xi);d=s(d,fi,xi);f=s(f,fi,xi)
-   f[fi+1]=f[fi]-x;f[fi]=0
-   xi+=1
+ b=d[bi]                                                                    # disk block
+ for fbi,fb in enumerate(f):                                                # free block index and free block
+  if fb>=b and fbi<bi:                                                      # find the right space, don't go too much to right
+   f2[bi]+=d[bi]+f[bi]                                                      # update the free space gained from moving the block
+   i=mv(i,fbi,bi);d=mv(d,fbi,bi);f=mv(f,fbi,bi)                             # move the block, update i,d,f
+   f[fbi+1]=f[fbi]-b;f[fbi]=0                                               # reduce the free space from the destination. move free space info right by one
+   bi+=1                                                                    # add one to the reversed counter as the index stays the same if the block moves
    break
- xi-=1;c-=1
-for v,n,f in zip(i,d,[x+y for x,y in zip(f,f2)]):
- m+=n*[v];m+=f*[0]
-print(sum([x*i for x,i in enumerate(m)]))
+ bi-=1;c-=1                                                                 # reduce loop counters
+for v,n,f in zip(i,d,[x+y for x,y in zip(f,f2)]):                           # sum values in f and f2 to get the resulting free space
+ m+=n*[v];m+=f*[0]                                                          # generate the "map". take n times v and combine with f times 0 for free space
+print(sum([x*i for x,i in enumerate(m)]))                                   # calculate checksum by multiplying the index and the value
