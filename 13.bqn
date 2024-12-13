@@ -8,7 +8,7 @@ Price ← ×⟜3+⊢
 Solve ← {⟨ax,ay⟩‿⟨bx,by⟩‿p𝕊i: p ≡ +´¨i⊸×¨(ax‿bx)‿(ay‿by)}
 
 sols  ← Re{/(𝕩⊸Solve)¨xs}¨in
-star1 ← +´⌊´¨Price´⚇1(⊑⟜xs)¨¨sols
+star1 ← ⊑+´Price´⚇1(⊑⟜xs)¨¨sols
 
 Solve2 ← {𝕊⟨ax,ay⟩‿⟨bx,by⟩‿⟨px,py⟩:
   d     ← (ax×by) - (bx×ay)
